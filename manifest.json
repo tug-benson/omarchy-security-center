@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.tug-benson.security-center",
+  "name": "Security Center",
+  "version": "0.1.0",
+  "author": "tug-benson",
+  "license": "MIT",
+  "description": "Unified security posture dashboard for Omarchy — Lynis hardening index, ClamAV detections, UFW firewall rules, RKHunter warnings and systemd exposure with a global indice (0-100) and per-finding exceptions.",
+  "repository": "https://github.com/tug-benson/omarchy-security-center",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Security Center",
+    "description": "Global indice in the bar. Click for Lynis, ClamAV, UFW, RKHunter and systemd panels with CVE ticker, collapsible details and one-click scans.",
+    "category": "Security",
+    "aliases": ["security", "lynis", "rkhunter", "clamav", "ufw", "hardening", "audit"],
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "refreshIntervalSec": 300,
+      "cveEnabled": true,
+      "cveMaxItems": 8,
+      "clamavScanPaths": "~/Downloads",
+      "lynisShowAll": false
+    },
+    "schema": [
+      {
+        "key": "refreshIntervalSec",
+        "type": "integer",
+        "label": "Background refresh (seconds)",
+        "min": 60,
+        "max": 3600,
+        "step": 60,
+        "defaultValue": 300,
+        "description": "How often the engine re-reads logs in the background. The panel refreshes faster while open."
+      },
+      {
+        "key": "cveEnabled",
+        "type": "boolean",
+        "label": "Show CVE feed",
+        "defaultValue": true,
+        "description": "Fetch the latest CVEs from cvefeed.io (network request, can be disabled offline)."
+      },
+      {
+        "key": "cveMaxItems",
+        "type": "integer",
+        "label": "CVE items",
+        "min": 3,
+        "max": 20,
+        "step": 1,
+        "defaultValue": 8
+      },
+      {
+        "key": "clamavScanPaths",
+        "type": "string",
+        "label": "ClamAV scan paths",
+        "defaultValue": "~/Downloads",
+        "description": "Comma-separated paths offered as one-click scan shortcuts. Paths are user-writable; no sudo is used for the scan itself."
+      },
+      {
+        "key": "lynisShowAll",
+        "type": "boolean",
+        "label": "Lynis: show all suggestions",
+        "defaultValue": false,
+        "description": "When off, only warnings are shown first. Turn on to also list suggestions."
+      }
+    ]
+  }
+}
