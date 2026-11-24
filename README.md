@@ -92,10 +92,40 @@ Edit or delete to un-ignore. The file is user-writable and never committed. `egr
 
 ## Acknowledgements
 
-- UFW parsing and firewall UX from [srozen/omarchy-ufw](https://github.com/srozen/omarchy-ufw) (MIT)
+- UFW parsing and firewall UX from [srozen/omarchy-ufw](https://github.com/srozen/omarchy-ufw) (MIT) — `Model.js` and `UfwController.qml` are derived from that project's MIT-licensed code.
 - ClamAV status from [szentesg/omarchy-clamav-monitor](https://github.com/szentesg/omarchy-clamav-monitor) (MIT)
 - Plugin health scanner from [ucmz851/omasecurity](https://github.com/ucmz851/omasecurity) (MIT)
 - Omarchy shell docs: <https://plugins.omarchy.org/develop.html> and Quickshell <https://doc.qt.io/qt-6/modules-qml.html>, Nerd Fonts <https://www.nerdfonts.com/cheat-sheet>
+
+## Third-party license notices
+
+The following MIT-licensed code is reused in this plugin. Original copyright and permission notices are retained here per the MIT license terms:
+
+### srozen/omarchy-ufw (MIT)
+
+```
+MIT License
+
+Copyright (c) srozen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```
 
 ## License
 

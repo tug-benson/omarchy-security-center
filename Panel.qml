@@ -95,7 +95,13 @@ Panel {
         if (secProc.running) return
         root.isScanning = true
         secProc.running = true
-        if (root.cveEnabled) cveProc.running = true
+        // Only fetch CVE if settings have been injected OR cveEnabled defaults true
+        // and hostWidget exists (settings loaded). Prevents one-shot fetch before settings arrive.
+        if (root.cveEnabled && root.hostWidget !== null) cveProc.running = true
+        else if (root.cveEnabled && root.hostWidget === null) {
+            // Defer CVE fetch slightly to allow settings injection
+            Qt.callLater(function() { if (root.cveEnabled && root.hostWidget !== null) cveProc.running = true })
+        }
     }
     function runClamScan(path) {
         if (!root.bar) return
@@ -464,8 +470,9 @@ BorderSurface {
                                             id: fixPermCol
                                             anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; anchors.margins: Style.space(6)
                                             spacing: Style.space(4)
-                                            Text { width: parent.width; textFormat: Text.PlainText; text: "Report exists but is not readable (640). Click to fix permissions."; color: root.barUrgent; font.family: root.barFontFamily; font.pixelSize: Style.font.caption; wrapMode: Text.Wrap; font.bold: true }
-                                            RowLayout { width: parent.width; Button { text: "Fix permissions"; fontSize: Style.font.caption; onClicked: if(root.bar) root.bar.run("omarchy-launch-floating-terminal-with-presentation " + Util.shellQuote("pkexec chmod 644 /var/log/lynis.log /var/log/lynis-report.dat && echo Fixed; ls -l /var/log/lynis*; read")) } Item { Layout.fillWidth:true } Text { textFormat: Text.PlainText; text: "needs pkexec"; color: Qt.darker(root.barForeground,1.4); font.family: root.barFontFamily; font.pixelSize: Style.font.caption } }
+                                            Text { width: parent.width; textFormat: Text.PlainText; text: "Report exists but is not readable (640). Click to fix permissions for your group only (640, not world-readable)."; color: root.barUrgent; font.family: root.barFontFamily; font.pixelSize: Style.font.caption; wrapMode: Text.Wrap; font.bold: true }
+                                            Text { width: parent.width; textFormat: Text.PlainText; text: "Warning: Lynis truncates existing files without resetting their mode, so the wider readership persists across future audits. Re-run Fix permissions after each audit if needed."; color: Qt.darker(root.barForeground,1.4); font.family: root.barFontFamily; font.pixelSize: Style.font.caption; wrapMode: Text.Wrap; font.italic: true }
+                                            RowLayout { width: parent.width; Button { text: "Fix permissions (group 640)"; fontSize: Style.font.caption; onClicked: if(root.bar) root.bar.run("omarchy-launch-floating-terminal-with-presentation " + Util.shellQuote("pkexec sh -c \"chgrp $(id -gn) /var/log/lynis.log /var/log/lynis-report.dat && chmod 640 /var/log/lynis.log /var/log/lynis-report.dat\" && echo Fixed; ls -l /var/log/lynis*; read")) } Item { Layout.fillWidth:true } Text { textFormat: Text.PlainText; text: "needs pkexec"; color: Qt.darker(root.barForeground,1.4); font.family: root.barFontFamily; font.pixelSize: Style.font.caption } }
                                         }
                                     }
                                     // Always show a helpful scan button — even when hardeningIndex is 0 or logs missing
